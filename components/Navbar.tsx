@@ -23,7 +23,7 @@ const Navbar = () => {
 
           <div className="flex flex-col leading-tight">
             <span className="font-semibold tracking-tight text-base text-white">
-              Mess<span className="text-emerald-400">NearMe</span>
+              Nearby<span className="text-emerald-400">Mess</span>
             </span>
             <span className="text-[11px] text-slate-400 uppercase tracking-[0.18em]">
               Student Mess Finder

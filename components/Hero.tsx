@@ -159,6 +159,10 @@ export default function Hero() {
         <div className="flex items-center gap-2">
           <p className="text-slate-300 text-3xl font-bold">Mess Available Near You</p>
         </div>
+        {/* No mess */}
+        {coords.lat && coords.lng && locationText !== "Detecting location..." && !loading && mess.length === null && (
+          <p className="text-red-400 text-sm">No mess available near your location.</p>
+        )}
 
         {/* ⭐ LOCATION STILL DETECTING → SHOW ONLY SKELETONS */}
         {(!coords.lat || !coords.lng || locationText === "Detecting location...") && (
@@ -210,10 +214,10 @@ export default function Hero() {
 
           </div>
         )}
-        {/* No mess */}
-        {coords.lat && coords.lng && locationText !== "Detecting location..." && !loading && mess.length === 0 && (
+        {/* No mess
+        {coords.lat && coords.lng && locationText !== "Detecting location..." && !loading && mess.length > 0 && (
           <p className="text-red-400 text-sm">No mess available near your location.</p>
-        )}
+        )} */}
       </section>
 
 
