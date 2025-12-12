@@ -39,6 +39,26 @@ interface MessType {
   distance: number;
   imageUrl: string;
   mobileNumber: number;
+  location: {
+    type: "Point";
+    coordinates: [number, number]; // [lng, lat]
+  };
+}
+// Haversine formula
+function getDistanceKm(lat1: number, lon1: number, lat2: number, lon2: number) {
+  const R = 6371; // Earth radius (km)
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1 * Math.PI / 180) *
+      Math.cos(lat2 * Math.PI / 180) *
+      Math.sin(dLon / 2) ** 2;
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  return +(R * c).toFixed(1); // return distance in KM (1 decimal)
 }
 
 
@@ -180,12 +200,25 @@ export default function Hero() {
 
   {/* ⭐ SHOW MESS CARDS */}
   {coords.lat && coords.lng && !loading && mess.length > 0 && (
+    
     <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {mess.map((m) => (
         <div
           key={m._id}
-          className="border border-slate-800 bg-slate-900/40 rounded-2xl shadow hover:shadow-xl hover:scale-[1.02] transition-all"
+          className="border relative border-slate-800 bg-slate-900/40 rounded-2xl shadow hover:shadow-xl hover:scale-[1.02] transition-all"
         >
+     {/* ⭐ Distance Badge */}
+  {coords.lat && coords.lng && (
+    <span className="absolute top-2 right-2 bg-emerald-600 text-black px-3 py-1 rounded-full text-xs font-semibold shadow">
+      {getDistanceKm(
+        coords.lat,
+        coords.lng,
+        m.location.coordinates[1],
+        m.location.coordinates[0]
+      )}{" "}
+      km away
+    </span>
+  )}
           <div className="w-full h-40 rounded-t-2xl overflow-hidden">
             <img src={m.imageUrl} className="w-full h-full object-cover" />
           </div>
@@ -199,6 +232,8 @@ export default function Hero() {
             </div>
 
             <p className="text-slate-500 text-sm">📍 {m.address}</p>
+            <Button onClick={() => handleCall(m.mobileNumber)} className="mt-4 w-full bg-emerald-500 text-black rounded-xl hover:bg-emerald-600" > Call Now </Button>
+             <Button onClick={() => router.push(`/mess/${m._id}`)} className="mt-2 w-full bg-slate-800 text-white rounded-xl hover:bg-slate-850" > View Details </Button>
           </div>
         </div>
       ))}
