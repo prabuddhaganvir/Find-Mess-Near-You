@@ -4,6 +4,7 @@ import { useState } from "react";
 import { UtensilsCrossed, MapPin, RefreshCcw, Menu, X } from "lucide-react";
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton, useUser } from "@clerk/nextjs";
 import useUserLocation from "@/app/hooks/useUserLocation";
+import Link from "next/link";
 
 const Navbar = () => {
   const { locationText, permissionDenied, detectLocation } = useUserLocation();
@@ -16,6 +17,7 @@ const Navbar = () => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
 
         {/* LOGO */}
+        <Link href={'/'}>
         <div className="flex items-center gap-2">
           <div className="h-9 w-9 rounded-2xl bg-gradient-to-br from-emerald-400 to-lime-300 flex items-center justify-center shadow-lg shadow-emerald-500/30">
             <UtensilsCrossed className="h-5 w-5 text-slate-950" />
@@ -30,6 +32,7 @@ const Navbar = () => {
             </span>
           </div>
         </div>
+        </Link>
 
        {/* DESKTOP AUTH BUTTONS */}
 <div className="hidden sm:flex items-center gap-3 text-white">
