@@ -24,6 +24,8 @@ export default function useUserLocation() {
       return;
     }
 
+    setLocationText("Detecting location...");
+
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
         const lat = pos.coords.latitude;
@@ -32,13 +34,16 @@ export default function useUserLocation() {
 
         setCoords({ lat, lng, accuracy });
 
+        // ⭐ FAST Reverse Geocoding (Geoapify)
         try {
           const res = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
+            `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&apiKey=${process.env.NEXT_PUBLIC_GEOAPIFY_KEY}`
           );
-          const data = await res.json();
 
-          setLocationText(data.display_name || "Unknown location");
+          const data = await res.json();
+          const formatted = data?.features?.[0]?.properties?.formatted;
+
+          setLocationText(formatted || "Unknown location");
         } catch {
           setLocationText("Unable to fetch address");
         }
@@ -51,7 +56,7 @@ export default function useUserLocation() {
       },
       {
         enableHighAccuracy: true,
-        timeout: 10000
+        timeout: 8000
       }
     );
   };
