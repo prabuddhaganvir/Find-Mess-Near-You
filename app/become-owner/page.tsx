@@ -51,43 +51,59 @@ useEffect(() => { if (user?.primaryEmailAddress?.emailAddress) { setForm((prev) 
   };
 
   // ⭐ Detect Location Automatically
-  const detectLocation = () => {
-    if (!navigator.geolocation) {
-      toast.error("Device does not support location.");
-      return;
-    }
+ const detectLocation = () => {
+  if (!navigator.geolocation) {
+    toast.error("Device does not support location.");
+    return;
+  }
 
-    setDetecting(true);
+  setDetecting(true);
+  toast.info("Detecting location...");
 
-    navigator.geolocation.getCurrentPosition(
-      async (pos) => {
-        const lat = pos.coords.latitude;
-        const lng = pos.coords.longitude;
+  navigator.geolocation.getCurrentPosition(
+    async (pos) => {
+      const lat = pos.coords.latitude;
+      const lng = pos.coords.longitude;
 
-        setForm((prev) => ({
-          ...prev,
-          lat: String(lat),
-          lng: String(lng),
-        }));
+      // ⭐ Save lat/lng first
+      setForm((prev) => ({
+        ...prev,
+        lat: String(lat),
+        lng: String(lng),
+      }));
 
-        const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`;
-        const res = await fetch(url);
+      try {
+        // ⭐ FAST Reverse Geocoding (Geoapify)
+        const res = await fetch(
+          `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&apiKey=${process.env.NEXT_PUBLIC_GEOAPIFY_KEY}`
+        );
+
         const data = await res.json();
+        const formatted = data?.features?.[0]?.properties?.formatted;
 
         setForm((prev) => ({
           ...prev,
-          address: data.display_name || "",
+          address: formatted || "",
         }));
 
-        toast.success("Location detected!");
-        setDetecting(false);
-      },
-      () => {
-        toast.error("Please allow location access.");
-        setDetecting(false);
+        toast.success("📍 Location detected!");
+      } catch (err) {
+        toast.error("Unable to fetch address");
       }
-    );
-  };
+
+      setDetecting(false);
+    },
+    () => {
+      toast.error("Please allow location access.");
+      setDetecting(false);
+    },
+    {
+      enableHighAccuracy: true,
+      timeout: 8000,
+    }
+  );
+};
+
 
 
   // ⭐ Validate Form
