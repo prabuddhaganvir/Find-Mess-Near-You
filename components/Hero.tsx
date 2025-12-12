@@ -159,65 +159,52 @@ export default function Hero() {
         <div className="flex items-center gap-2">
           <p className="text-slate-300 text-3xl font-bold">Mess Available Near You</p>
         </div>
-        {/* No mess */}
-        {coords.lat && coords.lng && locationText !== "Detecting location..." && !loading && mess.length === null && (
-          <p className="text-red-400 text-sm">No mess available near your location.</p>
-        )}
+         {/* ⭐ STILL DETECTING LOCATION → SHOW SKELETONS */}
+  {locationText === "Detecting location..." && (
+    <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <MessSkeleton /><MessSkeleton /><MessSkeleton /><MessSkeleton />
+    </div>
+  )}
 
-        {/* ⭐ LOCATION STILL DETECTING → SHOW ONLY SKELETONS */}
-        {(!coords.lat || !coords.lng || locationText === "Detecting location...") && (
-          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            <MessSkeleton /><MessSkeleton /><MessSkeleton /><MessSkeleton />
+  {/* ⭐ LOCATION READY BUT DB STILL LOADING */}
+  {coords.lat && coords.lng && locationText !== "Detecting location..." && loading && (
+    <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <MessSkeleton /><MessSkeleton /><MessSkeleton /><MessSkeleton />
+    </div>
+  )}
+
+  {/* ⭐ NO MESS AVAILABLE */}
+  {coords.lat && coords.lng && !loading && mess.length === 0 && (
+    <p className="text-red-400 text-sm">No mess available near your location."</p>
+  )}
+
+  {/* ⭐ SHOW MESS CARDS */}
+  {coords.lat && coords.lng && !loading && mess.length > 0 && (
+    <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      {mess.map((m) => (
+        <div
+          key={m._id}
+          className="border border-slate-800 bg-slate-900/40 rounded-2xl shadow hover:shadow-xl hover:scale-[1.02] transition-all"
+        >
+          <div className="w-full h-40 rounded-t-2xl overflow-hidden">
+            <img src={m.imageUrl} className="w-full h-full object-cover" />
           </div>
-        )}
 
+          <div className="p-4">
+            <h3 className="text-lg font-semibold text-slate-100">{m.name}</h3>
+            <p className="text-slate-400 text-sm mt-1">{m.description}</p>
 
-        {/* ⭐ SHOW CARDS ONLY WHEN LOCATION READY */}
-        {coords.lat && coords.lng && locationText !== "Detecting location..." && !loading && mess.length > 0 && (
-          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            <div className="mt-3 text-slate-200 font-semibold">
+              ₹ {m.chargesPerMonth}
+            </div>
 
-            {mess.map((m) => (
-              <div
-                key={m._id}
-                className="border border-slate-800 bg-slate-900/40 rounded-2xl shadow hover:shadow-xl hover:scale-[1.02] transition-all"
-              >
-                <div className="w-full h-40 rounded-t-2xl overflow-hidden">
-                  <img src={m.imageUrl} className="w-full h-full object-cover" />
-                </div>
-
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold text-slate-100">{m.name}</h3>
-                  <p className="text-slate-400 text-sm mt-1">{m.description}</p>
-
-                  <div className="mt-3 text-slate-200 font-semibold">
-                    ₹ {m.chargesPerMonth}
-                  </div>
-
-                  <p className="text-slate-500 text-sm">📍 {m.address}</p>
-
-                  <Button
-                    onClick={() => handleCall(m.mobileNumber)}
-                    className="mt-4 w-full bg-emerald-500 text-black rounded-xl hover:bg-emerald-600"
-                  >
-                    Call Now
-                  </Button>
-
-                  <Button
-                    onClick={() => router.push(`/mess/${m._id}`)}
-                    className="mt-2 w-full bg-slate-800 text-white rounded-xl hover:bg-slate-850"
-                  >
-                    View Details
-                  </Button>
-                </div>
-              </div>
-            ))}
-
+            <p className="text-slate-500 text-sm">📍 {m.address}</p>
           </div>
-        )}
-        {/* No mess
-        {coords.lat && coords.lng && locationText !== "Detecting location..." && !loading && mess.length > 0 && (
-          <p className="text-red-400 text-sm">No mess available near your location.</p>
-        )} */}
+        </div>
+      ))}
+    </div>
+  )}
+     
       </section>
 
 
