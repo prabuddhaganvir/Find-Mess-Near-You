@@ -11,9 +11,7 @@ export default function MessDetailsClient({ mess }: any) {
   const [showLogin, setShowLogin] = useState(false);
 
   return (
-    <div className="pb-24 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900">
-      <Navbar />
-
+    <div className="pb-24">
       {/* BANNER */}
       <div className="w-full h-64 sm:h-80 md:h-96 overflow-hidden rounded-b-3xl shadow-xl">
         <img
