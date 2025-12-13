@@ -79,6 +79,48 @@ export default function useUserLocation() {
         };
       });
   }, []);
+useEffect(() => {
+  let lastPermission: PermissionState | null = null;
+
+  const checkPermissionAndReload = async () => {
+    try {
+      if (!navigator.permissions) return;
+
+      const status = await navigator.permissions.query({
+        name: "geolocation" as PermissionName,
+      });
+
+      // First run
+      if (lastPermission === null) {
+        lastPermission = status.state;
+        return;
+      }
+
+      // Permission changed (OFF → ON or ON → OFF)
+      if (status.state !== lastPermission) {
+        localStorage.removeItem("lastLocation");
+        window.location.reload();
+      }
+
+      lastPermission = status.state;
+    } catch {
+      // silently ignore (iOS safari)
+    }
+  };
+
+  // 🔥 MOBILE SAFE TRIGGERS
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+      checkPermissionAndReload();
+    }
+  });
+
+  window.addEventListener("focus", checkPermissionAndReload);
+
+  return () => {
+    window.removeEventListener("focus", checkPermissionAndReload);
+  };
+}, []);
 
 
   // 🔄 ALSO HANDLE TAB SWITCH / BACK FROM SETTINGS
