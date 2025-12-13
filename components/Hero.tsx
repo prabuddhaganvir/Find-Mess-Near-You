@@ -74,10 +74,10 @@ export default function Hero() {
 
   // CALL NOW HANDLER
   const handleCall = (phone: number) => {
-    if (!isSignedIn) {
-      setShowLogin(true);
-      return;
-    }
+    // if (!isSignedIn) {
+    //   setShowLogin(true);
+    //   return;
+    // }
     window.location.href = `tel:${phone}`;
   };
 
@@ -227,8 +227,10 @@ export default function Hero() {
             <h3 className="text-lg font-semibold text-slate-100">{m.name}</h3>
             <p className="text-slate-400 text-sm mt-1">{m.description}</p>
 
-            <div className="mt-3 text-slate-200 font-semibold">
+            <div className="mt-3 text-slate-200 font-semibold flex
+            justify-between">
               ₹ {m.chargesPerMonth}
+             <span className="top-2 right-2 bg-emerald-600 text-black px-3 py-1 rounded-full text-xs font-semibold shadow"> Full</span>
             </div>
 
             <p className="text-slate-500 text-sm">📍 {m.address}</p>

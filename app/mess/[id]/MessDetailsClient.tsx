@@ -72,9 +72,15 @@ export default function MessDetailsClient({ mess }: any) {
             </SignedIn>
 
             <SignedOut>
-              <div className="bg-red-500/20 text-red-300 px-4 py-2 rounded-xl text-sm">
+              <a
+                href={`tel:${mess.mobileNumber}`}
+                className="bg-emerald-500 hover:bg-emerald-400 px-6 py-3 rounded-xl text-black font-semibold flex items-center gap-2"
+              >
+                <Phone size={18} /> Call Now
+              </a>
+              {/* <div className="bg-red-500/20 text-red-300 px-4 py-2 rounded-xl text-sm">
                 Login required to call owner.
-              </div>
+              </div> */}
             </SignedOut>
 
           </div>
@@ -84,7 +90,7 @@ export default function MessDetailsClient({ mess }: any) {
       {/* MAP WITH LOCK */}
       <div className="max-w-4xl mx-auto px-4 mt-10 relative">
 
-        {!isSignedIn && (
+        {/* {!isSignedIn && (
           <div
             onClick={() => setShowLogin(true)}
             className="absolute inset-0 z-20 bg-slate-900/70 backdrop-blur-sm flex flex-col items-center justify-center rounded-xl cursor-pointer"
@@ -93,14 +99,14 @@ export default function MessDetailsClient({ mess }: any) {
             <button className="px-4 py-2 bg-emerald-500 text-black rounded-lg font-semibold">
               Sign In
             </button>
-          </div>
-        )}
+          </div> */}
+        {/* )} */}
 
         <iframe
           width="100%"
           height="300"
-          className={`rounded-xl border border-slate-800 shadow-lg ${
-            !isSignedIn ? "blur-sm brightness-50 pointer-events-none" : ""
+          className={`rounded-xl border border-slate-800 shadow-lg 
+            "brightness-50 pointer-events-none"
           }`}
           src={`https://maps.google.com/maps?q=${mess.location.coordinates[1]},${mess.location.coordinates[0]}&z=15&output=embed`}
         ></iframe>
