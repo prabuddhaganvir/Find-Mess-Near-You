@@ -74,10 +74,10 @@ export default function Hero() {
 
   // CALL NOW HANDLER
   const handleCall = (phone: number) => {
-    if (!isSignedIn) {
-      setShowLogin(true);
-      return;
-    }
+    // if (!isSignedIn) {
+    //   setShowLogin(true);
+    //   return;
+    // }
     window.location.href = `tel:${phone}`;
   };
 
@@ -126,34 +126,39 @@ export default function Hero() {
         </p>
 
         {/* Search bar */}
-        <div className="mt-10 w-full max-w-xl flex flex-col sm:flex-row gap-4">
-          <div className="relative flex-1">
-            <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-emerald-400" />
-            <Input
-              className="pl-11 py-6 bg-slate-900/60 border-slate-700/70 rounded-xl"
-              value={locationText}
-              readOnly
-              
-            />
-          </div>
+      <div className="mt-10 w-full max-w-3xl mx-auto space-y-4">
 
+  {/* Location Input */}
+  <div className="relative w-full">
+    <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-emerald-400" />
 
-        {/* Permission Denied → Retry */}
-        {permissionDenied && (
-          <div className="text-center my-4">
-            <p className="text-red-400 mb-3">Location permission denied.</p>
+    <Input
+      className="pl-12 py-6 bg-slate-900/60 border border-slate-700/70 rounded-xl w-full text-slate-200"
+      value={locationText}
+      readOnly
+    />
+  </div>
 
-            <Button
-              onClick={detectLocation}
-              className="bg-blue-600 hover:bg-blue-500 text-white"
-            >
-              <RefreshCcw size={16} /> Retry Permission
-            </Button>
-          </div>
-        )}
+  {/* Permission Denied → Retry */}
+  {permissionDenied && (
+    <div className="flex flex-col sm:flex-row sm:tems-start sm:items-center justify-between gap-3 bg-red-500/5 border border-red-500/20 rounded-xl px-4 py-3">
+      
+      <p className="text-red-400 text-sm">
+        Location permission denied. Please enable location access.
+      </p>
 
+      <Button
+        onClick={detectLocation}
+        className="bg-blue-600 hover:bg-blue-500 text-white rounded-lg px-4 py-2 flex items-center gap-2 "
+      >
+        <RefreshCcw size={16} />
+        Retry
+      </Button>
+    </div>
+  )}
 
-        </div>
+      </div>
+
 
         {/* Stats */}
         <div className="flex flex-wrap gap-10 mt-12 text-slate-300 text-sm">
@@ -227,8 +232,10 @@ export default function Hero() {
             <h3 className="text-lg font-semibold text-slate-100">{m.name}</h3>
             <p className="text-slate-400 text-sm mt-1">{m.description}</p>
 
-            <div className="mt-3 text-slate-200 font-semibold">
+            <div className="mt-3 text-slate-200 font-semibold flex
+            justify-between">
               ₹ {m.chargesPerMonth}
+             <span className=" top-2 right-2 bg-emerald-600 text-black px-3 py-1 rounded-full text-xs font-semibold shadow">Full</span>
             </div>
 
             <p className="text-slate-500 text-sm">📍 {m.address}</p>

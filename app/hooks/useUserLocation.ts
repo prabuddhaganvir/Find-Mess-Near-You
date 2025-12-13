@@ -65,5 +65,33 @@ export default function useUserLocation() {
     detectLocation();
   }, []);
 
+  // 🔥 AUTO REFRESH WHEN LOCATION PERMISSION CHANGES (ON or OFF)
+  useEffect(() => {
+    if (!navigator.permissions) return;
+
+    navigator.permissions
+      .query({ name: "geolocation" as PermissionName })
+      .then((status) => {
+        status.onchange = () => {
+          // 🔁 ALWAYS refresh when user toggles permission
+          localStorage.removeItem("lastLocation");
+          window.location.reload();
+        };
+      });
+  }, []);
+
+
+  // 🔄 ALSO HANDLE TAB SWITCH / BACK FROM SETTINGS
+  useEffect(() => {
+    const onFocus = () => {
+      if (permissionDenied) {
+        window.location.reload();
+      }
+    };
+
+    window.addEventListener("visibilitychange", onFocus);
+    return () => window.removeEventListener("visibilitychange", onFocus);
+  }, [permissionDenied]);
+
   return { coords, locationText, permissionDenied, detectLocation };
 }
