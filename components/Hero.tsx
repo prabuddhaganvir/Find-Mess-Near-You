@@ -10,22 +10,21 @@ import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import LoginModal from "./LoginModal";
 import Link from "next/link";
-import { Soup } from "lucide-react";
 
 
 // ⭐ Skeleton Loader Component
 function MessSkeleton() {
   return (
-    <div className="animate-pulse border border-slate-800 bg-slate-900/40 backdrop-blur-xl rounded-2xl p-5">
-      <div className="w-full h-40 bg-slate-800/50 rounded-xl"></div>
+    <div className="animate-pulse border border-slate-800 bg-slate-400/40 backdrop-blur-xl rounded-2xl p-5">
+      <div className="w-full h-40 bg-slate-400/50 rounded-xl"></div>
 
-      <div className="mt-4 h-4 bg-slate-800/50 rounded w-3/4"></div>
-      <div className="mt-2 h-3 bg-slate-800/50 rounded w-1/2"></div>
+      <div className="mt-4 h-4 bg-slate-600/50 rounded w-3/4"></div>
+      <div className="mt-2 h-3 bg-slate-600/50 rounded w-1/2"></div>
 
-      <div className="mt-4 h-4 bg-slate-800/50 rounded w-1/4"></div>
-      <div className="mt-2 h-3 bg-slate-800/50 rounded w-full"></div>
+      <div className="mt-4 h-4 bg-slate-600/50 rounded w-1/4"></div>
+      <div className="mt-2 h-3 bg-slate-600/50 rounded w-full"></div>
 
-      <div className="mt-6 h-8 bg-slate-800/50 rounded-xl"></div>
+      <div className="mt-6 h-8 bg-slate-600/50 rounded-xl"></div>
     </div>
   );
 }
@@ -97,6 +96,7 @@ export default function Hero() {
     fetchMess();
   }, [coords, locationText]);
 
+
   
 
 
@@ -106,8 +106,6 @@ export default function Hero() {
       <section className="relative w-full py-24 px-4 sm:px-6 flex flex-col items-center text-center  ">
 
         {/* PREMIUM Gradient Background */}
- 
-       
           
 
         {/* Animated Map Glow */}
@@ -121,8 +119,8 @@ export default function Hero() {
           New • Discover verified mess near you
         </Badge>
 
-        <h1 className="text-4xl sm:text-6xl font-semibold text-slate-900 max-w-4xl">
-          Find <span className="text-[#F08700] font-bold">Trusted Mess</span> near your hostel
+        <h1 className="text-4xl sm:text-6xl font-bold text-slate-900 max-w-4xl">
+           Discover <span className="text-[#F08700] font-bold">Trusted Mess</span> Tiffin Services Near You
         </h1>
 
         <p className="main-second-dark mt-6 max-w-2xl text-lg">
@@ -232,6 +230,7 @@ export default function Hero() {
     m.location.coordinates[1],
     m.location.coordinates[0]
   );
+  
 
   return (
     <span className="absolute top-2 right-2 bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow">
