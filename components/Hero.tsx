@@ -10,6 +10,7 @@ import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import LoginModal from "./LoginModal";
 import Link from "next/link";
+import { Soup } from "lucide-react";
 
 
 // ⭐ Skeleton Loader Component
@@ -105,10 +106,9 @@ export default function Hero() {
       <section className="relative w-full py-24 px-4 sm:px-6 flex flex-col items-center text-center  ">
 
         {/* PREMIUM Gradient Background */}
-        <div className="absolute inset-0 -z-10 
-        bg-white
-        
-         " />
+ 
+       
+          
 
         {/* Animated Map Glow */}
         <div
@@ -225,17 +225,22 @@ export default function Hero() {
           className="border relative border-gray-300/60 rounded-2xl shadow hover:shadow-xl hover:cursor-ointer hover:scale-[1.02] transition-all"
         onClick={() => router.push(`/mess/${m._id}`)}>
      {/* ⭐ Distance Badge */}
-  {coords.lat && coords.lng && (
+{coords.lat && coords.lng && (() => {
+  const distanceKm = getDistanceKm(
+    coords.lat,
+    coords.lng,
+    m.location.coordinates[1],
+    m.location.coordinates[0]
+  );
+
+  return (
     <span className="absolute top-2 right-2 bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow">
-      {getDistanceKm(
-        coords.lat,
-        coords.lng,
-        m.location.coordinates[1],
-        m.location.coordinates[0]
-      )}{" "}
-      km
+      {distanceKm < 1
+        ? `${Math.round(distanceKm * 1000)} m`
+        : `${distanceKm.toFixed(1)} km`}
     </span>
-  )}
+  );
+})()}
           <div className="w-full h-40 rounded-t-2xl overflow-hidden">
             <img src={m.imageUrl} className="w-full h-full object-cover" />
           </div>
