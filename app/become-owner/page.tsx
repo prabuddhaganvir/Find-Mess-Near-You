@@ -153,10 +153,10 @@ if (!form.imageUrl) return "Please upload an image.";
   };
 
   return (
-    <div className="min-h-screen px-4 sm:px-6 py-20 bg-gradient-to-b from-slate-900 via-slate-950 to-black">
+    <div className="min-h-screen px-4 sm:px-6 py-20">
       
       <div className="max-w-3xl mx-auto text-center mb-12">
-        <h1 className="text-4xl font-bold text-white">Become a Mess Owner</h1>
+        <h1 className="text-4xl font-bold main-dark">Become a Mess Owner</h1>
         <p className="text-slate-400 mt-3">
           Register your mess and start receiving student leads instantly.
         </p>
@@ -165,18 +165,18 @@ if (!form.imageUrl) return "Please upload an image.";
       {/* FORM */}
       <form
         onSubmit={handleSubmit}
-        className="max-w-3xl mx-auto bg-slate-900/60 backdrop-blur-xl border border-slate-800 
+        className="max-w-3xl mx-auto bg-gray-400/60 backdrop-blur-xl border border-slate-800 
         rounded-2xl shadow-xl p-8 space-y-6"
       >
         {/* Email (Pre-filled) */}
         <div>
-          <label className="text-slate-300 text-sm">Your Email</label>
+          <label className="main-dark text-sm">Your Email</label>
           <input
             type="email"
             name="email"
             value={form.email}
             disabled
-            className="mt-1 w-full bg-slate-800/50 border border-slate-700 text-slate-400 rounded-lg px-4 py-3 cursor-not-allowed"
+            className="mt-1 w-full bg-white border border-slate-700 text-black rounded-lg px-4 py-3 cursor-not-allowed"
           />
         </div>
 
@@ -197,25 +197,25 @@ if (!form.imageUrl) return "Please upload an image.";
 
         {/* NAME */}
         <div>
-          <label className="text-slate-300 text-sm">Mess Name</label>
+          <label className="main-dark text-sm">Mess Name</label>
           <input
             type="text"
             name="name"
             value={form.name}
             onChange={handleChange}
-            className="input-field"
+            className="mt-1 w-full bg-white border border-slate-700 text-black rounded-lg px-4 py-3"
             placeholder="Shree Dattatreya Mess"
           />
         </div>
 
         {/* DESCRIPTION */}
         <div>
-          <label className="text-slate-300 text-sm">Description</label>
+          <label className="main-dark text-sm">Description</label>
           <textarea
             name="description"
             value={form.description}
             onChange={handleChange}
-            className="input-field h-24"
+            className="mt-1 w-full bg-white border border-slate-700 text-black rounded-lg px-4 py-3 h-24"
             placeholder="Simple homestyle meals, delivery available."
           />
         </div>
@@ -223,32 +223,32 @@ if (!form.imageUrl) return "Please upload an image.";
         {/* PRICE + MOBILE */}
         <div className="grid sm:grid-cols-2 gap-6">
           <div>
-            <label className="text-slate-300 text-sm">Monthly Charges</label>
+            <label className="main-dark text-sm">Monthly Charges</label>
             <input
               type="number"
               name="chargesPerMonth"
               value={form.chargesPerMonth}
               onChange={handleChange}
-              className="input-field"
+            className="mt-1 w-full bg-white border border-slate-700 text-black rounded-lg px-4 py-3"
               placeholder="2600"
             />
           </div>
 
           <div>
-            <label className="text-slate-300 text-sm">Mobile Number</label>
+            <label className="main-dark text-sm">Mobile Number</label>
             <input
               type="number"
               name="mobileNumber"
               value={form.mobileNumber}
               onChange={handleChange}
-              className="input-field"
+            className="mt-1 w-full bg-white border border-slate-700 text-black rounded-lg px-4 py-3"
               placeholder="9887766554"
             />
           </div>
         </div>
 
         {/* FOOD TYPE */}
-        <div className="text-slate-300">
+        <div className="main-dark">
           <label className="text-sm">Food Type</label>
 
           <div className="flex gap-6 mt-2">
@@ -274,24 +274,26 @@ if (!form.imageUrl) return "Please upload an image.";
           type="button"
           onClick={detectLocation}
           disabled={detecting}
-          className="w-full bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-lg font-medium"
+          className="w-full bg-blue-600 hover:bg-blue-500 main-dark py-3 rounded-lg font-medium"
         >
           {detecting ? "Detecting location..." : "📍 Detect My Location"}
         </button>
 
         <input
+          
           type="text"
           name="address"
           value={form.address}
           onChange={handleChange}
-          className="input-field"
+          className="mt-1 w-full bg-white border border-slate-700 text-black rounded-lg px-4 py-3"
+
           placeholder="Address will auto-fill here"
         />
 
         {/* SUBMIT */}
         <button
           disabled={loading}
-          className="w-full bg-emerald-500 hover:bg-emerald-400 text-black py-3 rounded-xl font-semibold shadow-lg"
+          className="w-full main-bg-orange hover:bg-orange-400 text-black py-3 rounded-xl font-semibold shadow-lg"
         >
           {loading ? "Submitting..." : "Register Mess"}
         </button>
