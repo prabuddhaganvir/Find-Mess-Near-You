@@ -79,7 +79,7 @@ const Navbar = () => {
         <div className="flex gap-2 sm:hidden block">
             <UserButton />
         <button
-          className="sm:hidden text-slate-200"
+          className="sm:hidden text-black"
           onClick={() => setOpen(!open)}
         >
           {open ? <X size={26} />  : <Menu size={26} />}
@@ -90,19 +90,20 @@ const Navbar = () => {
 
       {/* MOBILE COLLAPSE MENU */}
       {open && (
-        <div className="sm:hidden bg-slate-900/80 border-t border-slate-800/60 px-4 py-4 space-y-4">
+        <div className="sm:hidden bg-gray-300 border-t border-black px-4 py-4 space-y-4 shadow-md">
 
           {/* LOCATION ROW (only mobile menu) */}
-          <div className="flex items-center gap-2 text-sm text-slate-300">
+          <div className="flex items-center gap-2 text-sm">
             <MapPin size={16} className="text-blue-500 shrink-0" />
             <span className="truncate">{locationText}</span>
 
-            <button
+            <Button
+            variant="ghost"
               onClick={detectLocation}
-              className="flex items-center gap-1 text-gray-500 hover:text-emerald-400 text-xs"
+              className="flex items-center gap-1 text-xs"
             >
               <RefreshCcw size={12} /> Refresh
-            </button>
+            </Button>
           </div>
 
           {/* LOCATION PERMISSION BUTTON */}
@@ -120,15 +121,17 @@ const Navbar = () => {
             <SignedOut>
               <div className="flex flex-col gap-3 mt-3">
                 <SignInButton>
-                  <button className="w-full bg-slate-800 text-slate-200 py-2 rounded-lg">
+                  <Button className="w-full  py-2 rounded-lg">
                     Sign In
-                  </button>
+                  </Button>
                 </SignInButton>
 
                 <SignUpButton>
-                  <button className="w-full bg-emerald-500 text-black py-2 rounded-lg">
+                  <Button 
+                  variant="secondary"
+                  className="w-full py-2 rounded-lg">
                     Sign Up
-                  </button>
+                  </Button>
                 </SignUpButton>
               </div>
             </SignedOut>
@@ -141,19 +144,23 @@ const Navbar = () => {
               </div> */}
              
               <SignedIn>
-  <div className="flex flex-col gap-3 mt-3 justify-center items-center">
-    <a
-      href="/become-owner"
-      className="w-full bg-emerald-500 text-black py-2 rounded-lg font-medium text-sm text-center hover:bg-emerald-400 transition"
+  <div className="flex gap-3 mt-3 justify-center items-center">
+    
+     <Link href="/become-owner">
+    <Button
+      className="rounded-xl font-medium h-10 px-4 text-sm flex items-center transition"
     >
       Become Owner
-    </a>
-    <a
-      href="/your-mess"
-      className="w-full bg-emerald-500 text-black py-2 rounded-lg font-medium text-sm text-center hover:bg-emerald-400 transition"
+    </Button>
+    </Link>
+      <Link href="/your mess">
+    <Button
+    variant="secondary"
+      className="rounded-xl font-medium h-10 px-4 text-sm flex items-center transition"
     >
       Your Mess
-    </a>
+    </Button>
+    </Link>
 
   </div>
 </SignedIn>
