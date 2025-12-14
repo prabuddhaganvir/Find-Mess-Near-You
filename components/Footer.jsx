@@ -1,11 +1,11 @@
 export default function Footer() {
   return (
-    <footer className="mt-20 bg-gradient-to-b from-slate-900 via-slate-950 to-black border-t border-slate-800/60">
+    <footer className="mt-20 bg-transparent border-t border-slate-600">
       <div className="max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 sm:grid-cols-3 gap-10">
 
         {/* BRAND */}
         <div>
-          <h2 className="text-2xl font-bold text-white tracking-tight">MessFinder</h2>
+          <h2 className="text-3xl font-bold main-dark tracking-tight">MessFinder</h2>
           <p className="text-slate-400 text-sm mt-3 leading-relaxed">
             Helping students discover clean, affordable and trusted mess options near their hostel.
           </p>
@@ -13,7 +13,7 @@ export default function Footer() {
 
         {/* QUICK LINKS */}
         <div>
-          <h3 className="text-lg font-semibold text-white mb-4">Quick Links</h3>
+          <h3 className="text-lg font-semibold main-dark mb-4">Quick Links</h3>
           <ul className="space-y-2 text-slate-400">
             <li>
               <a href="/" className="hover:text-emerald-400 transition">Home</a>
@@ -32,7 +32,7 @@ export default function Footer() {
 
         {/* CONTACT */}
         <div>
-          <h3 className="text-lg font-semibold text-white mb-4">Contact Us</h3>
+          <h3 className="text-lg font-semibold main-dark mb-4">Contact Us</h3>
           <ul className="space-y-2 text-slate-400">
             <li>Email: support@messfinder.com</li>
             <li>Phone: +91 98765 43210</li>

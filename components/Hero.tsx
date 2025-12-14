@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import LoginModal from "./LoginModal";
+import Link from "next/link";
 
 
 // ⭐ Skeleton Loader Component
@@ -101,10 +102,13 @@ export default function Hero() {
   return (
     <>
       {/* HERO SECTION */}
-      <section className="relative w-full py-24 px-4 sm:px-6 flex flex-col items-center text-center">
+      <section className="relative w-full py-24 px-4 sm:px-6 flex flex-col items-center text-center  ">
 
         {/* PREMIUM Gradient Background */}
-        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-slate-900 via-slate-950 to-black" />
+        <div className="absolute inset-0 -z-10 
+        bg-white
+        
+         " />
 
         {/* Animated Map Glow */}
         <div
@@ -113,15 +117,15 @@ export default function Hero() {
           `}
         />
 
-        <Badge className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 px-4 py-1 mb-8">
+        <Badge className="main-bg-orange border main-text-orange px-4 py-1 mb-8">
           New • Discover verified mess near you
         </Badge>
 
-        <h1 className="text-4xl sm:text-6xl font-semibold text-slate-100 max-w-4xl">
-          Find <span className="text-emerald-400">trusted mess</span> near your hostel
+        <h1 className="text-4xl sm:text-6xl font-semibold text-slate-900 max-w-4xl">
+          Find <span className="text-[#F08700] font-bold">Trusted Mess</span> near your hostel
         </h1>
 
-        <p className="text-slate-300 mt-6 max-w-2xl text-lg">
+        <p className="main-second-dark mt-6 max-w-2xl text-lg">
           Explore clean, affordable and reliable mess options around you.
         </p>
 
@@ -133,7 +137,7 @@ export default function Hero() {
     <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-emerald-400" />
 
     <Input
-      className="pl-12 py-6 bg-slate-900/60 border border-slate-700/70 rounded-xl w-full text-slate-200"
+      className="pl-12 py-6 border border-slate-400/70 rounded-xl w-full main-dark"
       value={locationText}
       readOnly
     />
@@ -161,7 +165,7 @@ export default function Hero() {
 
 
         {/* Stats */}
-        <div className="flex flex-wrap gap-10 mt-12 text-slate-300 text-sm">
+        <div className="flex flex-wrap gap-10 mt-12 main-second-dark text-sm">
           <div className="flex items-center gap-3">
             <div className="flex -space-x-2">
               <div className="w-8 h-8 bg-emerald-500/70 rounded-full" />
@@ -171,7 +175,7 @@ export default function Hero() {
             10,000+ searches
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center main-second-dark gap-2">
             <Star className="text-amber-400 fill-amber-400" /> 4.9 rating
           </div>
         </div>
@@ -179,10 +183,10 @@ export default function Hero() {
 
 
       {/* ⭐ NEARBY MESS SECTION */}
-      <section className="px-4 sm:px-6 py-12 max-w-6xl mx-auto space-y-6">
+      <section className="px-4 sm:px-6 py-12 max-w-6xl mx-auto space-y-6 ">
 
         <div className="flex items-center gap-2">
-          <p className="text-slate-300 text-3xl font-bold">Mess Available Near You</p>
+          <p className="main-dark text-3xl font-bold">Mess Available Near You</p>
         </div>
          {/* ⭐ STILL DETECTING LOCATION → SHOW SKELETONS */}
   {locationText === "Detecting location..." && (
@@ -205,23 +209,31 @@ export default function Hero() {
 
   {/* ⭐ SHOW MESS CARDS */}
   {coords.lat && coords.lng && !loading && mess.length > 0 && (
-    
-    <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+
+
+    <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 "  >
       {mess.map((m) => (
+        <Link
+      key={m._id}
+      href={`/mess/${m._id}`}
+      prefetch
+      className="block"
+    >
         <div
+        
           key={m._id}
-          className="border relative border-slate-800 bg-slate-900/40 rounded-2xl shadow hover:shadow-xl hover:scale-[1.02] transition-all"
-        >
+          className="border relative border-gray-300/60 rounded-2xl shadow hover:shadow-xl hover:cursor-ointer hover:scale-[1.02] transition-all"
+        onClick={() => router.push(`/mess/${m._id}`)}>
      {/* ⭐ Distance Badge */}
   {coords.lat && coords.lng && (
-    <span className="absolute top-2 right-2 bg-emerald-600 text-black px-3 py-1 rounded-full text-xs font-semibold shadow">
+    <span className="absolute top-2 right-2 bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow">
       {getDistanceKm(
         coords.lat,
         coords.lng,
         m.location.coordinates[1],
         m.location.coordinates[0]
       )}{" "}
-      km away
+      km
     </span>
   )}
           <div className="w-full h-40 rounded-t-2xl overflow-hidden">
@@ -229,22 +241,30 @@ export default function Hero() {
           </div>
 
           <div className="p-4">
-            <h3 className="text-lg font-semibold text-slate-100">{m.name}</h3>
-            <p className="text-slate-400 text-sm mt-1">{m.description}</p>
+            <h3 className="text-lg font-semibold main-dark">{m.name}</h3>
+        <p className="main-second-dark mt-2">
+  {m.description?.length > 30
+    ? m.description.slice(0, 30) + "..."
+    : m.description}
+</p>
 
-            <div className="mt-3 text-slate-200 font-semibold flex
+
+            <div className="mt-3 main-dark font-semibold flex
             justify-between">
               ₹ {m.chargesPerMonth}
-             <span className=" top-2 right-2 bg-emerald-600 text-black px-3 py-1 rounded-full text-xs font-semibold shadow">Full</span>
+             <span className=" top-2 right-2 bg-green-700 text-white px-3 py-1 rounded-full text-xs font-semibold shadow">Full</span>
             </div>
 
-            <p className="text-slate-500 text-sm">📍 {m.address}</p>
-            <Button onClick={() => handleCall(m.mobileNumber)} className="mt-4 w-full bg-emerald-500 text-black rounded-xl hover:bg-emerald-600" > Call Now </Button>
-             <Button onClick={() => router.push(`/mess/${m._id}`)} className="mt-2 w-full bg-slate-800 text-white rounded-xl hover:bg-slate-850" > View Details </Button>
+            {/* <Button onClick={() => handleCall(m.mobileNumber)} className="mt-4 w-full bg-emerald-500 text-black rounded-xl hover:bg-emerald-600" > Call Now </Button>
+             <Button onClick={() => router.push(`/mess/${m._id}`)} className="mt-2 w-full bg-slate-800 text-white rounded-xl hover:bg-slate-850" > View Details </Button> */}
           </div>
         </div>
+          </Link>
       ))}
+     
     </div>
+    
+  
   )}
      
       </section>
