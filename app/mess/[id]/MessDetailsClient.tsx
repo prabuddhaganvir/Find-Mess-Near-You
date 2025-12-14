@@ -22,21 +22,21 @@ export default function MessDetailsClient({ mess }: any) {
 
       {/* DETAILS CARD */}
       <div className="max-w-4xl mx-auto px-4 -mt-12 relative z-10">
-        <div className="bg-slate-900/80 backdrop-blur-xl border border-slate-800 p-6 rounded-2xl shadow-2xl">
+        <div className="bg-white backdrop-blur-xl border border-slate-300/80 p-6 rounded-2xl shadow-2xl">
 
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-white">{mess.name}</h1>
-              <p className="text-slate-400 mt-2">{mess.description}</p>
+              <h1 className="text-3xl font-bold main-dark">{mess.name}</h1>
+              <p className="mt-2 main-second-dark">{mess.description}</p>
 
-              <div className="flex items-center gap-2 mt-3 text-slate-300 text-sm">
+              <div className="flex items-center gap-2 mt-3 text-slate-500 text-sm">
                 <MapPin size={18} className="text-emerald-400" />
                 {mess.address}
               </div>
             </div>
 
-            <div className="bg-emerald-400/20 border border-emerald-400/40 text-emerald-300 px-4 py-2 rounded-xl text-lg font-semibold">
-              ₹ {mess.chargesPerMonth}
+            <div className="bg-emerald-500 border border-emerald-400/40 sm:px-4 sm:py-1 rounded-xl text-md sm:text-lg font-semibold py-0 px-4">
+              ₹{mess.chargesPerMonth}
             </div>
           </div>
 
@@ -53,7 +53,7 @@ export default function MessDetailsClient({ mess }: any) {
               </span>
             )}
             {mess.foodType === "both" && (
-              <span className="flex items-center gap-1 bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-sm">
+              <span className="flex items-center gap-1 bg-orange-500/50 text-black px-3 py-1 rounded-full text-sm border">
                 <UtensilsCrossed size={14} /> Veg + Non-Veg
               </span>
             )}
@@ -67,7 +67,7 @@ export default function MessDetailsClient({ mess }: any) {
                 href={`tel:${mess.mobileNumber}`}
                 className="bg-emerald-500 hover:bg-emerald-400 px-6 py-3 rounded-xl text-black font-semibold flex items-center gap-2"
               >
-                <Phone size={18} /> Call Now
+                <Phone size={18} /> Call
               </a>
             </SignedIn>
 
@@ -105,7 +105,7 @@ export default function MessDetailsClient({ mess }: any) {
         <iframe
           width="100%"
           height="300"
-          className={`rounded-xl border border-slate-800 shadow-lg 
+          className={`rounded-xl border border-slate-300/80 shadow-lg 
             "brightness-50 pointer-events-none"
           }`}
           src={`https://maps.google.com/maps?q=${mess.location.coordinates[1]},${mess.location.coordinates[0]}&z=15&output=embed`}

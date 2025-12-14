@@ -5,6 +5,7 @@ import { UtensilsCrossed, MapPin, RefreshCcw, Menu, X } from "lucide-react";
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton, useUser } from "@clerk/nextjs";
 import useUserLocation from "@/app/hooks/useUserLocation";
 import Link from "next/link";
+import { Button } from "./ui/button";
 
 const Navbar = () => {
   const { locationText, permissionDenied, detectLocation } = useUserLocation();
@@ -12,8 +13,9 @@ const Navbar = () => {
    const { user } = useUser();
 
 
+
   return (
-    <header className="border-b border-slate-800/60 backdrop-blur sticky top-0 z-30 bg-transparent">
+    <header className="border-b border-slate-300/60 sm:border-slate-500/60 backdrop-blur sticky top-0 z-30 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
 
         {/* LOGO */}
@@ -24,10 +26,10 @@ const Navbar = () => {
           </div>
 
           <div className="flex flex-col leading-tight">
-            <span className="font-semibold tracking-tight text-base text-white">
-              Nearby<span className="text-emerald-400">Mess</span>
+            <span className="font-semibold tracking-tight text-base text-slate-900">
+              Nearby<span className="main-text-orange font-bold">Mess</span>
             </span>
-            <span className="text-[11px] text-slate-400 uppercase tracking-[0.18em]">
+            <span className="text-[11px] main-second-dark uppercase tracking-[0.18em]">
               Student Mess Finder
             </span>
           </div>
@@ -37,27 +39,35 @@ const Navbar = () => {
        {/* DESKTOP AUTH BUTTONS */}
 <div className="hidden sm:flex items-center gap-3 text-white">
   <SignedOut>
-    <SignInButton/>
+    <SignInButton>
+      <Button className="main-bg-orange rounded-full font-medium h-10 px-4 text-sm">
+        Sign In
+      </Button>
+    </SignInButton>
     <SignUpButton>
-      <button className="bg-[#6c47ff] text-white rounded-full font-medium h-10 px-4 text-sm">
+      <Button
+      variant="secondary"
+       className="main-bg-orange rounded-full font-medium h-10 px-4 text-sm">
         Sign Up
-      </button>
+      </Button>
     </SignUpButton>
   </SignedOut>
 
   <SignedIn>
-    <a
-      href="/become-owner"
-      className="bg-emerald-500 text-black rounded-full font-medium h-10 px-4 text-sm flex items-center hover:bg-emerald-400 transition"
+    <Link href="/become-owner">
+    <Button
+      className="rounded-xl font-medium h-10 px-4 text-sm flex items-center transition"
     >
       Become Owner
-    </a>
-      <a
-      href="/your-mess"
-      className="bg-emerald-500 text-black rounded-full font-medium h-10 px-4 text-sm flex items-center hover:bg-emerald-400 transition"
-    >
+    </Button>
+    </Link>
+
+    <Link href="/your-mess">
+    <Button variant="secondary"
+      className="rounded-xl font-medium h-10 px-4 text-sm flex items-center transition" >
       Your Mess
-    </a>
+    </Button>
+    </Link>
 
     <UserButton />
   </SignedIn>

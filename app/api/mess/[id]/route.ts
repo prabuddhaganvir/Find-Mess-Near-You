@@ -1,6 +1,8 @@
 import { connectDB } from "@/lib/db";
 import Owner from "@/app/models/Owner";
 
+
+
 export async function GET(req: Request, context: any) {
   await connectDB();
   const { id } = await context.params;

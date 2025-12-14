@@ -2,7 +2,11 @@
 
 import { CldUploadWidget } from "next-cloudinary";
 
-export default function CloudinaryUpload({ onUpload }: { onUpload: (url: string) => void }) {
+export default function CloudinaryUpload({
+  onUpload,
+}: {
+  onUpload: (url: string) => void;
+}) {
   return (
     <div className="w-full">
       <CldUploadWidget
@@ -16,27 +20,27 @@ export default function CloudinaryUpload({ onUpload }: { onUpload: (url: string)
           clientAllowedFormats: ["png", "jpg", "jpeg", "webp"],
         }}
         onQueuesEnd={(result: any) => {
-          console.log("📦 QUEUES-END RESULT:", result);
-
           const url =
             result?.info?.files?.[0]?.uploadInfo?.secure_url ||
             result?.info?.secure_url;
 
-          if (url) {
-            console.log("✅ FINAL URL:", url);
-            onUpload(url);
-          } else {
-            console.warn("⚠️ No URL found in queue-end");
-          }
+          if (!url) return;
+
+          // 🔥 AUTO COMPRESS (WORKS FOR ALL FORMATS)
+          const optimizedUrl = url.replace(
+            "/upload/",
+            "/upload/f_auto,q_auto:eco,w_1200/"
+          );
+
+          onUpload(optimizedUrl);
         }}
         onError={(err) => console.error("❌ CLOUDINARY ERROR:", err)}
       >
         {({ open }) => (
           <button
-            type="button"  // 🔥 SUPER IMPORTANT
+            type="button"
             onClick={(e) => {
-              e.preventDefault(); // Prevent form interactions
-              console.log("📁 Opening Cloudinary Widget...");
+              e.preventDefault();
               open();
             }}
             className="w-full bg-slate-800 border border-slate-700 text-white py-3 rounded-lg hover:bg-slate-700"

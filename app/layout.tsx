@@ -35,7 +35,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-       <main className="bg-gradient-to-b from-slate-900 via-slate-950 to-black"> 
+       <main className="bg-white moving-gradient"> 
         <Navbar />
         {children}
         <Footer />
