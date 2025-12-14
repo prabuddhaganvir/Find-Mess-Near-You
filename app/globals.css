@@ -148,3 +148,6 @@
     @apply text-[#181818]
   }
 }
+.animate-spin-slow {
+  animation: spin 2s linear infinite;
+}
