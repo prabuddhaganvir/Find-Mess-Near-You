@@ -1,14 +1,57 @@
 "use client";
 
-import { Phone, MapPin, Leaf, UtensilsCrossed, MessageCircle } from "lucide-react";
+import { Phone, MapPin, Leaf, UtensilsCrossed } from "lucide-react";
 import { useState } from "react";
 import { SignedIn, SignedOut, useUser } from "@clerk/nextjs";
-import MessDetailsSkeleton from "./MessDetailsSkeleton";
-import Navbar from "@/components/Navbar";
+import StarRating from "@/components/StarRating";
 
 export default function MessDetailsClient({ mess }: any) {
-  const { isSignedIn } = useUser();
-  const [showLogin, setShowLogin] = useState(false);
+  const { isSignedIn, user } = useUser();
+
+  // ⭐ RATING-ONLY STATE (NEW)
+  const [localRating, setLocalRating] = useState(mess.rating);
+  const [hasRated, setHasRated] = useState(false);
+  const [ratingLoading, setRatingLoading] = useState(false);
+
+  // ⭐ RATING HANDLER (UPDATED)
+  const handleRate = async (messId: string, value: number) => {
+    if (!isSignedIn) return;
+    if (hasRated || ratingLoading) return;
+
+    setRatingLoading(true);
+
+    // ⚡ OPTIMISTIC UI (instant)
+    setLocalRating((prev: any) => {
+      if (!prev) return { average: value, count: 1 };
+
+      const newCount = prev.count + 1;
+      const newAverage =
+        (prev.average * prev.count + value) / newCount;
+
+      return {
+        average: Number(newAverage.toFixed(1)),
+        count: newCount,
+      };
+    });
+
+    setHasRated(true);
+
+    try {
+      const res = await fetch(`/api/owner/${messId}/rate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ rating: value }),
+      });
+
+      if (!res.ok) {
+        console.error("Rating API failed:", res.status);
+      }
+    } catch (error) {
+      console.error("Rating error:", error);
+    } finally {
+      setRatingLoading(false);
+    }
+  };
 
   return (
     <div className="pb-24">
@@ -28,6 +71,22 @@ export default function MessDetailsClient({ mess }: any) {
             <div>
               <h1 className="text-3xl font-bold main-dark">{mess.name}</h1>
               <p className="mt-2 main-second-dark">{mess.description}</p>
+
+              {/* ⭐ RATING (ONLY CHANGE HERE) */}
+              <div className="mt-3">
+                <StarRating
+                  rating={localRating?.average}
+                  count={localRating?.count}
+                  editable={isSignedIn && !hasRated}
+                  onRate={(value) => handleRate(mess._id, value)}
+                />
+
+                {hasRated && (
+                  <p className="text-sm text-green-600 mt-1">
+                    ✅ You have rated this mess
+                  </p>
+                )}
+              </div>
 
               <div className="flex items-center gap-2 mt-3 text-slate-500 text-sm">
                 <MapPin size={18} className="text-emerald-400" />
@@ -61,7 +120,6 @@ export default function MessDetailsClient({ mess }: any) {
 
           {/* ACTION BUTTONS */}
           <div className="mt-6 flex items-center gap-4">
-
             <SignedIn>
               <a
                 href={`tel:${mess.mobileNumber}`}
@@ -78,38 +136,19 @@ export default function MessDetailsClient({ mess }: any) {
               >
                 <Phone size={18} /> Call Now
               </a>
-              {/* <div className="bg-red-500/20 text-red-300 px-4 py-2 rounded-xl text-sm">
-                Login required to call owner.
-              </div> */}
             </SignedOut>
-
           </div>
         </div>
       </div>
 
-      {/* MAP WITH LOCK */}
+      {/* MAP */}
       <div className="max-w-4xl mx-auto px-4 mt-10 relative">
-
-        {/* {!isSignedIn && (
-          <div
-            onClick={() => setShowLogin(true)}
-            className="absolute inset-0 z-20 bg-slate-900/70 backdrop-blur-sm flex flex-col items-center justify-center rounded-xl cursor-pointer"
-          >
-            <p className="text-white text-sm mb-2">Login to view location</p>
-            <button className="px-4 py-2 bg-emerald-500 text-black rounded-lg font-semibold">
-              Sign In
-            </button>
-          </div> */}
-        {/* )} */}
-
         <iframe
           width="100%"
           height="300"
-          className={`rounded-xl border border-slate-300/80 shadow-lg 
-            "brightness-50 pointer-events-none"
-          }`}
+          className="rounded-xl border border-slate-300/80 shadow-lg"
           src={`https://maps.google.com/maps?q=${mess.location.coordinates[1]},${mess.location.coordinates[0]}&z=15&output=embed`}
-        ></iframe>
+        />
       </div>
     </div>
   );

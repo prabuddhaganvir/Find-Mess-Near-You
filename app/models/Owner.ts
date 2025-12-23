@@ -63,6 +63,19 @@ const ownerSchema = new mongoose.Schema(
         required: true,
       },
     },
+    // ⭐ Rating & Reviews
+rating: {
+  average: {
+    type: Number,
+    default: 0,   // 0–5
+    min: 0,
+    max: 5,
+  },
+  count: {
+    type: Number,
+    default: 0,   // total number of ratings
+  },
+},
   },
   { timestamps: true }
 );
