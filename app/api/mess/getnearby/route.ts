@@ -26,26 +26,37 @@ export async function GET(req: NextRequest) {
     return NextResponse.json([], { status: 200 });
   }
 
-  // GET NEARBY USING MONGODB
+  // 🔹 SAME QUERY (untouched)
   const owners = await Owner.find({
     location: {
       $near: {
         $geometry: {
           type: "Point",
-          coordinates: [lng, lat], // Important
+          coordinates: [lng, lat],
         },
         $maxDistance: 3000, // 3KM
       },
     },
   });
 
+  // 🔹 SAFE RESPONSE (rating guaranteed)
   const nearby = owners.map((m: any) => {
     const messLat = m.location.coordinates[1];
     const messLng = m.location.coordinates[0];
 
     const distance = getDistance(lat, lng, messLat, messLng);
 
-    return { ...m._doc, distance };
+    return {
+      ...m._doc,
+
+      // ⭐ IMPORTANT: always send rating object
+      rating: {
+        average: m.rating?.average ?? 0,
+        count: m.rating?.count ?? 0,
+      },
+
+      distance,
+    };
   });
 
   return NextResponse.json(nearby);
