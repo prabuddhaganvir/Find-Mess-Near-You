@@ -1,9 +1,8 @@
 import Owner from "@/app/models/Owner";
-import { auth } from "@clerk/nextjs/server";
+import { verifyToken } from "@clerk/nextjs/server";
 
 export async function GET(req: Request) {
   try {
-    // 1️⃣ Read token sent from mobile
     const authHeader = req.headers.get("authorization");
 
     if (!authHeader) {
@@ -13,10 +12,12 @@ export async function GET(req: Request) {
       );
     }
 
-    // 2️⃣ Verify Clerk JWT
-    const { userId } = await auth({
-      token: authHeader.replace("Bearer ", ""),
-    });
+    const token = authHeader.replace("Bearer ", "");
+
+    // ✅ VERIFY JWT (THIS IS THE KEY FIX)
+    const payload = await verifyToken(token);
+
+    const userId = payload.sub; // 👈 Clerk userId
 
     if (!userId) {
       return Response.json(
@@ -25,10 +26,8 @@ export async function GET(req: Request) {
       );
     }
 
-    // 3️⃣ Business logic
     const mess = await Owner.findOne({ ownerId: userId });
 
-    // 4️⃣ ALWAYS return JSON
     return Response.json({
       exists: !!mess,
       messId: mess?._id || null,
@@ -37,8 +36,8 @@ export async function GET(req: Request) {
     console.error("check-owner error:", err);
 
     return Response.json(
-      { error: "Internal server error" },
-      { status: 500 }
+      { error: "Invalid or expired token" },
+      { status: 401 }
     );
   }
 }
