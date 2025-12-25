@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "bc500ce2-e4b0-4061-90cd-aff32e47317d"
+      }
+    },
+    "android": {
+      "package": "com.prabuddhaganvir.messnearme"
+    }
+  }
+}

@@ -21,15 +21,21 @@ export default function YourMessPage() {
     }
   }, [isLoaded, isSignedIn]);
 
+
  useEffect(() => {
   if (!user?.id) return;
 
   const loadMess = async () => {
     try {
-      // 1️⃣ Check if owner has a mess
       const res = await fetch("/api/mess/check-owner");
-      const data = await res.json();
-      console.log(data)
+
+      const text = await res.text();
+      if (!text) {
+        throw new Error("Empty response from check-owner");
+      }
+
+      const data = JSON.parse(text);
+      console.log("check-owner:", data);
 
       if (!data.exists) {
         setMess(null);
@@ -37,20 +43,21 @@ export default function YourMessPage() {
         return;
       }
 
-      // 2️⃣ Fetch that mess details
-     const res2 = await fetch(`/api/mess/${data.messId}`);
+      const res2 = await fetch(`/api/mess/${data.messId}`);
       const messData = await res2.json();
 
       setMess(messData);
     } catch (e) {
       console.error("Error loading mess:", e);
+      toast.error("Failed to load mess");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   loadMess();
 }, [user?.id]);
+
 
 
   // ⭐ Delete Mess Function
