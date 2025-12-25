@@ -1,8 +1,11 @@
 import Owner from "@/app/models/Owner";
 import { auth } from "@clerk/nextjs/server";
+import { connectDB } from "@/lib/db";
 
 export async function GET() {
   try {
+    await connectDB(); // ⭐ REQUIRED
+
     const { userId } = await auth();
 
     if (!userId) {
