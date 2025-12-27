@@ -157,6 +157,8 @@ export default function Hero() {
       {/* HERO SECTION */}
       <section className="relative w-full py-24 px-4 sm:px-6 flex flex-col items-center text-center  ">
 
+        
+
         {/* PREMIUM Gradient Background */}
 
 
@@ -193,6 +195,7 @@ export default function Hero() {
             />
           </div>
 
+
           {/* Permission Denied → Retry */}
           {permissionDenied && (
             <div className="flex flex-col sm:flex-row sm:tems-start sm:items-center justify-between gap-3 bg-red-500/5 border border-red-500/20 rounded-xl px-4 py-3">
@@ -212,6 +215,50 @@ export default function Hero() {
           )}
 
         </div>
+        {/* APP DOWNLOAD (RESPONSIVE, NOT FULL WIDTH) */}
+<div className="mt-8 flex justify-start">
+  <div
+    className="
+      flex flex-col sm:flex-row
+      items-start sm:items-center
+      gap-3 sm:gap-4
+      rounded-2xl
+      bg-white/30 backdrop-blur
+      px-4 sm:px-5
+      py-4 sm:py-3
+      shadow-sm
+      max-w-full sm:max-w-fit
+    "
+  >
+    <span className="text-[11px] font-semibold uppercase tracking-wider text-emerald-600 bg-emerald-100 px-2 py-1 rounded-full">
+      Official App
+    </span>
+
+    <p className="text-sm text-slate-700 max-w-[260px] sm:max-w-none">
+      Download the NearbyMess app for faster & smoother experience
+    </p>
+
+    <a
+      href="https://github.com/prabuddhaganvir/nearbymessapp/releases/download/v1.0.0/NearbyMess.v.1.0.0.apk"
+      target="_blank"
+      className="
+        sm:ml-2
+        w-full sm:w-auto
+        text-center
+        rounded-full
+        bg-black
+        text-white
+        px-4 py-2 sm:py-1.5
+        text-sm font-medium
+        hover:bg-slate-900
+        transition
+      "
+    >
+      Download
+    </a>
+  </div>
+</div>
+
 
 
         {/* Stats */}
@@ -229,7 +276,14 @@ export default function Hero() {
             <Star className="text-amber-400 fill-amber-400" /> 4.9 rating
           </div>
         </div>
+
+        
       </section>
+
+      
+
+
+
 
 
       {/* ⭐ NEARBY MESS SECTION */}
@@ -331,6 +385,7 @@ export default function Hero() {
 
 
         )}
+        
 
       </section>
 
